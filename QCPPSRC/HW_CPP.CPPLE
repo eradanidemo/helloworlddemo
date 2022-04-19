@@ -1,0 +1,17 @@
+#include <except.h>
+#include <qmhsndpm.h>
+#include <cstdlib>
+
+extern "C"
+int hw_cpp() {
+  int rc = 0;
+  char key[4];
+  int zero = 0;
+#pragma exception_handler(API_Failure, 0, 0, _C2_ALL, _CTLA_HANDLE)
+  QMHSNDPM("HWD0005", "HWMSGS    *LIBL     ", "", 0, "*COMP     ", "*PGMBDY   ",
+           1, key, &zero);
+#pragma disable_handler
+  return 0;
+API_Failure:
+  return 1;
+}
